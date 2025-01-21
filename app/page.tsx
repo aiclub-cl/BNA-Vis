@@ -8,9 +8,11 @@ import {
   useNodesState,
   useEdgesState,
   addEdge,
+  Panel
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
+import Bar from './components/Bar';
 
 const initialNodes = [
   { id: '1', position: { x: 0, y: 0 }, data: { label: '1' } },
@@ -28,17 +30,17 @@ export default function Home() {
   );
 
   return (
-    <div style={{ width: '100vw', height: '100vh' }}>
+    <div className="relative w-screen h-screen">
       <ReactFlow
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        className="flex-row"
       >
-        <Controls />
-        <MiniMap />
-        <Background variant="dots" gap={12} size={1} />
+        <Panel position="bottom-center"><Bar /></Panel>
+        <Background variant="dots" gap={16} size={1.2} />
       </ReactFlow>
     </div>
   );
