@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.0",
     "@xyflow/react": "^12.4.2",
     "next": "15.1.5",
     "react": "^19.0.0",

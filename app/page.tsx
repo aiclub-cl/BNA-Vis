@@ -13,6 +13,7 @@ import {
 
 import '@xyflow/react/dist/style.css';
 import Bar from './components/Bar';
+import FileOptions from './components/FileOptions';
 
 const initialNodes = [
   { id: '1', position: { x: 0, y: 0 }, data: { label: '1' } },
@@ -39,6 +40,7 @@ export default function Home() {
         onConnect={onConnect}
         className="flex-row"
       >
+        <Panel position="top-left"><FileOptions /></Panel>
         <Panel position="bottom-center"><Bar /></Panel>
         <Background variant="dots" gap={16} size={1.2} />
       </ReactFlow>
