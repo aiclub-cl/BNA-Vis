@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.0",
     "@xyflow/react": "^12.4.2",
     "next": "15.1.5",
     "react": "^19.0.0",
@@ -22,6 +23,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.1.5",
     "postcss": "^8",
+    "prettier-plugin-tailwindcss": "^0.6.10",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
