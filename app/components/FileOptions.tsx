@@ -36,7 +36,7 @@ export default function FileOptions() {
                     <DropdownMenuSub>
                         <DropdownMenuSubTrigger>Export</DropdownMenuSubTrigger>
                         <DropdownMenuPortal>
-                            <DropdownMenuSubContent>
+                            <DropdownMenuSubContent className="border-black">
                                 <DropdownMenuItem>PDF</DropdownMenuItem>
                                 <DropdownMenuItem>SVG</DropdownMenuItem>
                                 <DropdownMenuItem>PNG</DropdownMenuItem>

@@ -12,7 +12,7 @@ import {
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
-import Bar from './components/Bar';
+import Bar from './components/UserTools';
 import FileOptions from './components/FileOptions';
 
 const initialNodes = [
