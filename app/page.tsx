@@ -8,7 +8,8 @@ import {
   useNodesState,
   useEdgesState,
   addEdge,
-  Panel
+  Panel,
+  BackgroundVariant
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
@@ -31,7 +32,7 @@ export default function Home() {
   );
 
   return (
-    <div className="relative w-screen h-screen">
+    <div className="relative w-screen h-screen bg-stone-100">
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -42,7 +43,7 @@ export default function Home() {
       >
         <Panel position="top-left"><FileOptions /></Panel>
         <Panel position="bottom-center"><Bar /></Panel>
-        <Background variant="dots" gap={16} size={1.2} />
+        <Background color="#BFBFBF" className=""variant={BackgroundVariant.Dots} gap={16} size={1.2} />
       </ReactFlow>
     </div>
   );
