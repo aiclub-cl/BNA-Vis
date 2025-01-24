@@ -7,19 +7,20 @@ export default function Bar() {
             {/* Left Side Buttons */}
             <div className="flex flex-col justify-center border-r border-black">
                 {/* Mouse Button */}
-                <button className="flex justify-center items-center w-8 h-8 border-black rounded-tl-lg border-b bg-white hover:bg-gray-200">
-                    <Image src="/mouse.svg" alt="Mouse Icon" width={16} height={16} draggable={false} />
+                <button className="flex flex-1 justify-center items-center w-8 h-8 border-black rounded-tl-lg border-b bg-white hover:bg-gray-200">
+                    <Image src="/svgs/mouse.svg" alt="Mouse Icon" width={16} height={16} draggable={false} />
                 </button>
                 {/* Hand Button */}
-                <button className="flex justify-center items-center w-8 h-8 bg-white rounded-bl-lg hover:bg-gray-200">
-                    <Image src="/hand.svg" alt="Mouse Icon" width={15} height={15} draggable={false} />
+                <button className="flex flex-1 justify-center items-center w-8 h-8 bg-white rounded-bl-lg hover:bg-gray-200">
+                    <Image src="/svgs/hand.svg" alt="Mouse Icon" width={15} height={15} draggable={false} />
                 </button>
             </div>
 
-            {/* Right Side Placeholder */}
-            <div className="flex-1 flex items-center justify-center">
-                {/* Add more elements here */}
-                <span className="text-gray-500">Content goes here</span>
+            {/* Shapes */}
+            <div className="flex items-end justify-center">
+                <button className="flex justify-center items-center h-full pt-2 px-2 wt-8 border-black border-r bg-white hover:bg-gray-200">
+                    <Image src="/svgs/shapes.svg" alt="Shapes Icon" width={70} height={64} draggable={false} />
+                </button>
             </div>
         </div>
 

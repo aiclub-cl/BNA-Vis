@@ -19,17 +19,17 @@ export default function FileOptions() {
             <p className="py-2 px-2 font-medium">ACME Inc.</p>
             <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center justify-center px-2 py-2 rounded-r-lg hover:bg-gray-200">
-                    <Image src="/dots.svg" alt="File Options" width={16} height={16} draggable={false} />
+                    <Image src="/svgs/dots.svg" alt="File Options" width={16} height={16} draggable={false} />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="bg-white border border-black rounded-lg shadow-lg">
                     {/* Start of Menu Options */}
                     <DropdownMenuItem>
-                        Copy
-                        <DropdownMenuShortcut>CTRL + C</DropdownMenuShortcut>
+                        Undo
+                        <DropdownMenuShortcut>CTRL + Z</DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                        Paste
-                        <DropdownMenuShortcut>CTRL + V</DropdownMenuShortcut>
+                        Redo
+                        <DropdownMenuShortcut>CTRL + Y</DropdownMenuShortcut>
                     </DropdownMenuItem>
                     {/* Separator */}
                     <DropdownMenuSeparator />
