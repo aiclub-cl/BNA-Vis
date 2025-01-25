@@ -1,4 +1,10 @@
 'use client';
+/**
+ * @fileoverview Main React Flow canvas implementation for BNA-Vis
+ * This component handles the graph visualization and user interactions
+ * including undo/redo functionality, node/edge management, and drag-drop operations
+ */
+
 import React, { useCallback } from 'react';
 import {
   ReactFlow,
@@ -22,55 +28,57 @@ import {
   OnNodeDrag,
   BackgroundVariant
 } from '@xyflow/react';
-
-{/* Utils */}
 import useUndoRedo from './components/utils/useUndoRedo';
-
-{/* Components */}
 import Bar from './components/UserTools';
 import FileOptions from './components/FileOptions';
-
-{/* Style */}
 import '@xyflow/react/dist/style.css';
 
-{/* Initial Configuration */}
+// Initial configuration for the React Flow canvas
 const proOptions: ProOptions = { account: 'paid-pro', hideAttribution: true };
 
+// Default nodes and edges for the graph
 const initialNodes = [
   { id: '1', position: { x: 0, y: 0 }, data: { label: '1' } },
   { id: '2', position: { x: 0, y: 100 }, data: { label: '2' } },
 ];
 const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
 
+// Sample labels for demonstration
 const nodeLabels: string[] = [
-  'Wire',
-  'your',
-  'ideas',
-  'with',
-  'React',
-  'Flow',
-  '!',
+  'Wire', 'your', 'ideas', 'with', 'React', 'Flow', '!',
 ];
 
-{/* Node Labels */}
+/**
+ * Home Component
+ * Main canvas component that manages the graph state and user interactions
+ * Implements undo/redo functionality and handles node/edge modifications
+ */
 function Home() {
+
   const { undo, redo, canUndo, canRedo, takeSnapshot } = useUndoRedo();
+
   const [nodes, , onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const { screenToFlowPosition, addNodes } = useReactFlow();
 
+  /**
+   * Handles new edge connections between nodes
+   * Takes a snapshot for undo/redo functionality
+   */
   const onConnect: OnConnect = useCallback(
     (connection) => {
-      // 👇 make adding edges undoable
       takeSnapshot();
       setEdges((edges) => addEdge(connection, edges));
     },
     [setEdges, takeSnapshot]
   );
 
+  /**
+   * Handles clicks on the canvas pane
+   * Creates new nodes at clicked position
+   */
   const onPaneClick = useCallback(
     (evt: React.MouseEvent<Element, MouseEvent>) => {
-      // 👇 make adding nodes undoable
       takeSnapshot();
       const position = screenToFlowPosition({ x: evt.clientX, y: evt.clientY });
       const label = nodeLabels.shift();
@@ -86,24 +94,20 @@ function Home() {
     [takeSnapshot, addNodes, screenToFlowPosition]
   );
 
+  // Event handlers for taking snapshots before modifications
   const onNodeDragStart: OnNodeDrag = useCallback(() => {
-    // 👇 make dragging a node undoable
     takeSnapshot();
-    // 👉 you can place your event handlers here
   }, [takeSnapshot]);
 
   const onSelectionDragStart: SelectionDragHandler = useCallback(() => {
-    // 👇 make dragging a selection undoable
     takeSnapshot();
   }, [takeSnapshot]);
 
   const onNodesDelete: OnNodesDelete = useCallback(() => {
-    // 👇 make deleting nodes undoable
     takeSnapshot();
   }, [takeSnapshot]);
 
   const onEdgesDelete: OnEdgesDelete = useCallback(() => {
-    // 👇 make deleting edges undoable
     takeSnapshot();
   }, [takeSnapshot]);
 
@@ -137,6 +141,11 @@ function Home() {
   );
 }
 
+/**
+ * ReactFlowWrapper Component
+ * Wraps the main component with ReactFlowProvider for context; this is necessary for the ReactFlow component to work.
+ * Evits the 001 error.
+ */
 function ReactFlowWrapper(props: any) {
   return (
     <ReactFlowProvider>
