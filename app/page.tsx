@@ -124,4 +124,17 @@ function Home({
   );
 }
 
+/**
+ * ReactFlowWrapper Component
+ * Wraps the main component with ReactFlowProvider for context; this is necessary for the ReactFlow component to work.
+ * Evits the 001 error.
+ */
+function ReactFlowWrapper(props: any) {
+  return (
+    <ReactFlowProvider>
+      <Home {...props} />
+    </ReactFlowProvider>
+  );
+}
 
+export default ReactFlowWrapper;
