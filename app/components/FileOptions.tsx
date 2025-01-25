@@ -12,14 +12,16 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger,
   } from "@/app/components/ui/dropdown-menu"
-import useExportPdf from './export';
+import useExport from './export';
 
 export default function FileOptions() {
     
-    const exportToPdf = useExportPdf();
+    const exportToPdf = useExport('pdf');
+    const exportToSvg = useExport('svg');
+    const exportToPng = useExport('png');
     
     return (
-        <div className="bg-white border-black border rounded-lg flex space-x-4">
+        <div id="topLeftPanel" className="bg-white border-black border rounded-lg flex space-x-4">
             <p className="py-2 px-2 font-medium">ACME Inc.</p>
             <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center justify-center px-2 py-2 rounded-r-lg hover:bg-gray-200">
@@ -44,8 +46,12 @@ export default function FileOptions() {
                                 <DropdownMenuItem onClick={exportToPdf}>
                                 PDF
                                 </DropdownMenuItem>
-                                <DropdownMenuItem>SVG</DropdownMenuItem>
-                                <DropdownMenuItem>PNG</DropdownMenuItem>
+                                <DropdownMenuItem onClick={exportToPng}>
+                                PNG
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={exportToSvg}>
+                                SVG
+                                </DropdownMenuItem>
                             </DropdownMenuSubContent>
                         </DropdownMenuPortal>
                     </DropdownMenuSub>

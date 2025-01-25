@@ -3,80 +3,98 @@ import { useCallback } from 'react';
 import { toPng } from 'html-to-image';
 import jsPDF from 'jspdf';
 
-/*
-La funcion  getDiagramElements busca obtener todos los elementos dentro de 
-el diagrama que no son el diagrama en sí.
-*/
 
-const getDiagramElements = (flowWrapper: HTMLElement) => {
-  // obtiene todos los elementos que están 
-  const allElements = Array.from(flowWrapper.querySelectorAll('*'));
+export function useExport(format: 'pdf' | 'svg' | 'png') {
+  /* Esta funcion recive un parametro que indica la forma en la que se exportrara 
+  el archivo, además, se encarga de ocultar los elementos que no deben estar 
+  incluidos en la imagen final, y luego los restaura 
+  -parte de este codigo fue generado con la ayuda de copilot- */
   
-  const diagramElements = allElements.filter(el => {
-    const isNode = el.classList.contains('react-flow__node');
-    const isEdge = el.classList.contains('react-flow__edge');
-    const isNodeContent = el.closest('.react-flow__node');
-    // aquí se filtra lo que es diagrama de lo que no:3
-    if (isNode) {
-      return true; 
-    } else if (isEdge) {
-      return true; 
-    } else if (isNodeContent) {
-      return true; 
-    } else {
-      return false; 
-    }
-  });
-
-  // Obtener elementos a ocultar 
-  const elementsToHide = allElements.filter(i=> 
-    !diagramElements.includes(i) && 
-    i instanceof HTMLElement
-  ) as HTMLElement[];
-
-  return { diagramElements, elementsToHide };
-};
-
-
-export function useExportPdf() {
-  // falta implementar un mecánismo para ocultar los elementos de el diagrama que no sean el diagrama
-  const exportToPdf = useCallback(() => {
+  
+  const exportToFile = useCallback(() => {
+    const topLeftPanel = document.getElementById('topLeftPanel') as HTMLElement;
+    const bottomCenterPanel = document.getElementById('bottomCenterPanel') as HTMLElement;
     const flowWrapper = document.querySelector('.react-flow') as HTMLElement;
     if (!flowWrapper) return;
 
-    toPng(flowWrapper, {
-      quality: 0.95,
-      backgroundColor: '#fff',
-      filter: (node) => {
-        const excludeClasses = ['react-flow__controls', 'react-flow__minimap'];
-        return !excludeClasses.some(className => 
-          node.classList?.contains(className)
-        );
-      }
-    })
-    .then((dataUrl) => {
-      const pdf = new jsPDF({
-        orientation: 'landscape',
-        unit: 'px',
-        format: [flowWrapper.clientWidth, flowWrapper.clientHeight]
+ 
+    if (topLeftPanel){ 
+      topLeftPanel.style.display = 'none';
+      console.log("panel encontrado");
+    }
+        
+    if (bottomCenterPanel){
+      bottomCenterPanel.style.display = 'none';
+      console.log("boton encontrado");
+    }
+    
+
+    if (format === 'png') {
+      toPng(flowWrapper, {
+        quality: 0.95,
+        backgroundColor: '#fff',
+      })
+      .then((dataUrl) => {
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        // cambiar por el nombre de el diagrama cuando este esa opción
+        link.download = 'diagrama-flujo.png';
+        link.click();
+
+       
+        if (topLeftPanel) topLeftPanel.style.display = '';
+        if (bottomCenterPanel) bottomCenterPanel.style.display = '';
       });
+    } else if (format === 'svg') {
+      const svg = flowWrapper.querySelector('svg');
+      if (svg) {
+        console.log("svg option")
+        const serializer = new XMLSerializer();
+        const svgString = serializer.serializeToString(svg);
+        const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        // cambiar por el nombre de el diagrama cuando este esa opción
+        link.download = 'diagrama-flujo.svg';
+        link.click();
+        URL.revokeObjectURL(url);
+      }
 
-      pdf.addImage(
-        dataUrl,
-        'PNG',
-        0,
-        0,
-        flowWrapper.clientWidth,
-        flowWrapper.clientHeight
-      );
-      
-      //aquí despúes hay que cambiar por el nombre de el diagrama
-      pdf.save('diagrama-flujo.pdf');
+      // Restaurar los paneles
+      if (topLeftPanel) topLeftPanel.style.display = '';
+      if (bottomCenterPanel) bottomCenterPanel.style.display = '';
 
-    });
-  }, []);
+    } else if (format === 'pdf') {
+      toPng(flowWrapper, {
+        quality: 0.95,
+        backgroundColor: '#fff',
+      })
+      .then((dataUrl) => {
+        const pdf = new jsPDF({
+          orientation: 'landscape',
+          unit: 'px',
+          format: [flowWrapper.clientWidth, flowWrapper.clientHeight]
+        });
 
-  return exportToPdf;
+        pdf.addImage(
+          dataUrl,
+          'PNG',
+          0,
+          0,
+          flowWrapper.clientWidth,
+          flowWrapper.clientHeight
+        );
+        // cambiar por el nombre de el diagrama cuando este esa opción
+        pdf.save('diagrama-flujo.pdf');
+
+        if (topLeftPanel) topLeftPanel.style.display = '';
+        if (bottomCenterPanel) bottomCenterPanel.style.display = '';
+      });
+    }
+  }, [format]);
+
+  return exportToFile;
 }
 
-export default useExportPdf
+export default useExport
