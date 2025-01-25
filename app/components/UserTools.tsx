@@ -28,6 +28,13 @@ export default function Bar() {
                         <Image src="/svgs/shapes.svg" alt="Shapes Icon" width={70} height={64} draggable={false} />
                     </PopoverTrigger>
                     <PopoverContent className="w-md border-black">
+                        
+                        <button className="btn">
+                            hellos
+                        </button>
+                        <button className="btn">
+                            chaos
+                        </button>
 
                     </PopoverContent>
                 </Popover>
