@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import useUndoRedo from './utils/useUndoRedo';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,7 +14,16 @@ import {
     DropdownMenuTrigger,
   } from "@/app/components/ui/dropdown-menu"
 
-export default function FileOptions() {
+interface FileOptionsProps {
+    undo: () => void;
+    redo: () => void;
+    canUndo: boolean;
+    canRedo: boolean;
+}
+  
+
+export default function FileOptions({ undo, redo, canUndo, canRedo }: FileOptionsProps) {
+
     return (
         <div className="bg-white border-black border rounded-lg flex space-x-4">
             <p className="py-2 px-2 font-medium">ACME Inc.</p>
@@ -23,11 +33,11 @@ export default function FileOptions() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="bg-white border border-black rounded-lg shadow-lg">
                     {/* Start of Menu Options */}
-                    <DropdownMenuItem>
+                    <DropdownMenuItem disabled={canUndo} onClick={undo}>
                         Undo
                         <DropdownMenuShortcut>CTRL + Z</DropdownMenuShortcut>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem disabled={canRedo} onClick={redo}>
                         Redo
                         <DropdownMenuShortcut>CTRL + Y</DropdownMenuShortcut>
                     </DropdownMenuItem>
@@ -38,7 +48,6 @@ export default function FileOptions() {
                         <DropdownMenuPortal>
                             <DropdownMenuSubContent className="border-black">
                                 <DropdownMenuItem>PDF</DropdownMenuItem>
-                                <DropdownMenuItem>SVG</DropdownMenuItem>
                                 <DropdownMenuItem>PNG</DropdownMenuItem>
                             </DropdownMenuSubContent>
                         </DropdownMenuPortal>
