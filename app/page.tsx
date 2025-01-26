@@ -25,7 +25,6 @@ import Bar from './components/UserTools';
 import FileOptions from './components/FileOptions';
 import { defaultNodes, defaultEdges } from './initial-elements';
 import ShapeNodeComponent from './components/shape-node';
-import Sidebar from './components/sidebar';
 import MiniMapNode from './components/minimap-node';
 import { ShapeNode, ShapeType } from './components/shape/types';
 
@@ -111,12 +110,14 @@ function Home({
         zoomOnDoubleClick={zoomOnDoubleClick}
         className="flex-row"
       >
-        <Panel position="top-left"><FileOptions /></Panel>
-        <Panel position="bottom-center"><Bar /></Panel>
-        <Background color="#BFBFBF" className=""variant={BackgroundVariant.Dots} gap={16} size={1.2} />
         <Panel position="top-left">
-          <Sidebar />
-        </Panel>
+        <FileOptions 
+        
+        /></Panel>
+        <Panel position="bottom-center"><Bar /></Panel>
+
+        <Background color="#BFBFBF" className=""variant={BackgroundVariant.Dots} gap={16} size={1.2} />
+        
         <Controls/>
         <MiniMap zoomable draggable nodeComponent={MiniMapNode} />
       </ReactFlow>

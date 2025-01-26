@@ -5,6 +5,10 @@ import {
     PopoverTrigger,
   } from "@/app/components/ui/popover"
 
+
+import SidebarItem from './FigureBar/figurebar-item';
+import { ShapeComponents, ShapeType } from './shape/types';
+
 export default function Bar() {
 
     return (
@@ -27,14 +31,20 @@ export default function Bar() {
                     <PopoverTrigger className="flex justify-center items-center h-full pt-2 px-2 wt-8 border-black border-r bg-white hover:bg-gray-200">
                         <Image src="/svgs/shapes.svg" alt="Shapes Icon" width={70} height={64} draggable={false} />
                     </PopoverTrigger>
+                    
+                    /*
+                    aquí se ocupa el codigo de el ejemplo de la carpeta FigureBar, 
+                    -antes se llamaba sidebar-, copie el codigo para implementarlo en 
+                    ese panel.
+                    */
                     <PopoverContent className="w-md border-black">
                         
-                        <button className="btn">
-                            hellos
-                        </button>
-                        <button className="btn">
-                            chaos
-                        </button>
+                        <div className="popover-label mb-2"></div>
+                        <div className="popover-items flex flex-row flex-wrap gap-2">
+                            {Object.keys(ShapeComponents).map((type) => (
+                                <SidebarItem type={type as ShapeType} key={type} />
+                            ))}
+                        </div>
 
                     </PopoverContent>
                 </Popover>

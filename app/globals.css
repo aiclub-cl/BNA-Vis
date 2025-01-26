@@ -120,3 +120,67 @@ body {
     @apply bg-background text-foreground;
     }
 }
+
+/*
+Aquí aplique parte del css que venía en el ejemplo, si no lo ponía habían 
+cosas que no funcionaban , pero la idea es cambiar esto obviamente :3
+*/
+
+@layer components {
+
+  .react-flow__panel,
+  .react-flow__node-toolbar {
+    background-color: var(--panel-background);
+    box-shadow: var(--panel-shadow);
+    border-radius: 8px;
+    padding: 8px;
+  }
+
+  
+  .react-flow__minimap-mask {
+    fill: var(--background);
+    fill-opacity: 0.85;
+  }
+  
+  .react-flow__node-toolbar {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .react-flow__node.selected .react-flow__handle {
+    opacity: 1;
+  }
+  
+  .color-swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    outline: none;
+    box-shadow: none;
+    border: 1px solid var(--panel-background);
+    cursor: pointer;
+  }
+  
+  .color-swatch.active {
+    outline: 2px solid var(--text);
+  }
+  
+  .node-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    color: var(--text);
+  }
+  
+  .node-label::placeholder {
+    color: var(--text);
+    opacity: 0.5;
+  }
+  
+}

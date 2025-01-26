@@ -24,14 +24,14 @@ function SidebarItem({ type }: SidebarItemProps) {
         type={type}
         fill="transparent"
         strokeWidth={1}
-        width={28}
-        height={28}
+        width={20}
+        height={20}
       />
       <div className="sidebar-item-drag-image" ref={dragImageRef}>
         <Shape
           type={type}
-          width={80}
-          height={80}
+          width={40}
+          height={40}
           fill="#3F8AE2"
           fillOpacity={0.7}
           stroke="#3F8AE2"

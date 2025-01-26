@@ -32,16 +32,7 @@ export const defaultNodes: ShapeNode[] = [
       color: '#438D57',
     },
   },
-  {
-    id: '4',
-    type: 'shape',
-    position: { x: 200, y: 140 },
-    style: { width: 120, height: 60 },
-    data: {
-      type: 'hexagon',
-      color: '#CF4C2C',
-    },
-  },
+
   {
     id: '5',
     type: 'shape',
@@ -52,57 +43,7 @@ export const defaultNodes: ShapeNode[] = [
       color: '#438D57',
     },
   },
-  {
-    id: '6',
-    type: 'shape',
-    position: { x: -260, y: 320 },
-    style: { width: 140, height: 60 },
-    data: {
-      type: 'arrow-rectangle',
-      color: '#803DEC',
-    },
-  },
-  {
-    id: '7',
-    type: 'shape',
-    position: { x: 10, y: 300 },
-    style: { width: 100, height: 100 },
-    data: {
-      type: 'cylinder',
-      color: '#EBC347',
-    },
-    selected: true,
-  },
-  {
-    id: '8',
-    type: 'shape',
-    position: { x: 10, y: 500 },
-    style: { width: 100, height: 80 },
-    data: {
-      type: 'triangle',
-      color: '#3F8AE2',
-    },
-  },
-  {
-    id: '9',
-    type: 'shape',
-    position: { x: 180, y: 420 },
-    style: { width: 140, height: 60 },
-    data: {
-      type: 'parallelogram',
-      color: '#803DEC',
-    },
-  },
-  {
-    id: '10',
-    type: 'shape',
-    position: { x: -230, y: 460 },
-    style: { width: 80, height: 80 },
-    data: {
-      type: 'plus',
-      color: '#CF4C2C',
-    },
-  },
+
 ];
 
 export const defaultEdges: Edge[] = [
