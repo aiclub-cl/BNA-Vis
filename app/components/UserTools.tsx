@@ -8,7 +8,7 @@ import {
 export default function Bar() {
 
     return (
-        <div className="bg-white border-black border rounded-lg flex w-80">
+        <div id ="bottomCenterPanel" className="bg-white border-black border rounded-lg flex w-80">
             {/* Left Side Buttons */}
             <div className="flex flex-col justify-center border-r border-black">
                 {/* Mouse Button */}

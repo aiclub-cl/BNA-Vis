@@ -13,6 +13,7 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger,
   } from "@/app/components/ui/dropdown-menu"
+import useExport from './export';
 
 interface FileOptionsProps {
     undo: () => void;
@@ -23,9 +24,13 @@ interface FileOptionsProps {
   
 
 export default function FileOptions({ undo, redo, canUndo, canRedo }: FileOptionsProps) {
+    
+    const exportToPdf = useExport('pdf');
+    const exportToPng = useExport('png');
+    
 
     return (
-        <div className="bg-white border-black border rounded-lg flex space-x-4">
+        <div id="topLeftPanel" className="bg-white border-black border rounded-lg flex space-x-4">
             <p className="py-2 px-2 font-medium">ACME Inc.</p>
             <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center justify-center px-2 py-2 rounded-r-lg hover:bg-gray-200">
@@ -47,8 +52,14 @@ export default function FileOptions({ undo, redo, canUndo, canRedo }: FileOption
                         <DropdownMenuSubTrigger>Export</DropdownMenuSubTrigger>
                         <DropdownMenuPortal>
                             <DropdownMenuSubContent className="border-black">
-                                <DropdownMenuItem>PDF</DropdownMenuItem>
-                                <DropdownMenuItem>PNG</DropdownMenuItem>
+                                
+                                <DropdownMenuItem onClick={exportToPdf}>
+                                PDF
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={exportToPng}>
+                                PNG
+                                </DropdownMenuItem>
+
                             </DropdownMenuSubContent>
                         </DropdownMenuPortal>
                     </DropdownMenuSub>
