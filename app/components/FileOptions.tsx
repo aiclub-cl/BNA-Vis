@@ -17,7 +17,6 @@ import useExport from './export';
 export default function FileOptions() {
     
     const exportToPdf = useExport('pdf');
-    const exportToSvg = useExport('svg');
     const exportToPng = useExport('png');
     
     return (
@@ -49,9 +48,7 @@ export default function FileOptions() {
                                 <DropdownMenuItem onClick={exportToPng}>
                                 PNG
                                 </DropdownMenuItem>
-                                <DropdownMenuItem onClick={exportToSvg}>
-                                SVG
-                                </DropdownMenuItem>
+
                             </DropdownMenuSubContent>
                         </DropdownMenuPortal>
                     </DropdownMenuSub>

@@ -17,19 +17,19 @@ export function useExport(format: 'pdf' | 'svg' | 'png') {
     const flowWrapper = document.querySelector('.react-flow') as HTMLElement;
     if (!flowWrapper) return;
 
- 
-    if (topLeftPanel){ 
-      topLeftPanel.style.display = 'none';
-      console.log("panel encontrado");
-    }
-        
-    if (bottomCenterPanel){
-      bottomCenterPanel.style.display = 'none';
-      console.log("boton encontrado");
-    }
-    
 
     if (format === 'png') {
+      
+      if (topLeftPanel){ 
+        topLeftPanel.style.display = 'none';
+        console.log("panel encontrado");
+      }
+          
+      if (bottomCenterPanel){
+        bottomCenterPanel.style.display = 'none';
+        console.log("boton encontrado");
+      }
+            
       toPng(flowWrapper, {
         quality: 0.95,
         backgroundColor: '#fff',
@@ -45,27 +45,20 @@ export function useExport(format: 'pdf' | 'svg' | 'png') {
         if (topLeftPanel) topLeftPanel.style.display = '';
         if (bottomCenterPanel) bottomCenterPanel.style.display = '';
       });
-    } else if (format === 'svg') {
-      const svg = flowWrapper.querySelector('svg');
-      if (svg) {
-        console.log("svg option")
-        const serializer = new XMLSerializer();
-        const svgString = serializer.serializeToString(svg);
-        const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        // cambiar por el nombre de el diagrama cuando este esa opción
-        link.download = 'diagrama-flujo.svg';
-        link.click();
-        URL.revokeObjectURL(url);
-      }
-
-      // Restaurar los paneles
-      if (topLeftPanel) topLeftPanel.style.display = '';
-      if (bottomCenterPanel) bottomCenterPanel.style.display = '';
 
     } else if (format === 'pdf') {
+      
+      if (topLeftPanel){ 
+        topLeftPanel.style.display = 'none';
+        console.log("panel encontrado");
+      }
+          
+      if (bottomCenterPanel){
+        bottomCenterPanel.style.display = 'none';
+        console.log("boton encontrado");
+      }      
+      
+      
       toPng(flowWrapper, {
         quality: 0.95,
         backgroundColor: '#fff',
