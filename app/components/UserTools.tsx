@@ -9,6 +9,12 @@ import {
 import SidebarItem from './FigureBar/figurebar-item';
 import { ShapeComponents, ShapeType } from './shape/types';
 
+/*
+en el  PopoverConten , se ocupa el codigo de el ejemplo de la carpeta FigureBar, 
+-antes se llamaba sidebar-, copie el codigo para implementarlo en 
+ese panel.
+ */
+
 export default function Bar() {
 
     return (
@@ -32,11 +38,6 @@ export default function Bar() {
                         <Image src="/svgs/shapes.svg" alt="Shapes Icon" width={70} height={64} draggable={false} />
                     </PopoverTrigger>
                     
-                    /*
-                    aquí se ocupa el codigo de el ejemplo de la carpeta FigureBar, 
-                    -antes se llamaba sidebar-, copie el codigo para implementarlo en 
-                    ese panel.
-                    */
                     <PopoverContent className="w-md border-black">
                         
                         <div className="popover-label mb-2"></div>
