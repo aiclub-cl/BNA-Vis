@@ -31,6 +31,7 @@ import {
   MarkerType,
   ConnectionMode,
   NodeTypes,
+  MiniMap
 } from '@xyflow/react';
 
 import useUndoRedo from './components/utils/useUndoRedo';
@@ -38,14 +39,15 @@ import Bar from './components/UserTools';
 import FileOptions from './components/FileOptions';
 
 import { defaultNodes, defaultEdges } from './initial-elements';
-import ShapeNodeComponent from './components/shape-node';
-import MiniMapNode from './components/minimap-node';
-import { ShapeNode, ShapeType } from './components/shape/types';
+import ShapeNodeComponent from './components/Shapes/shape-node';
+import MiniMapNode from './components/Shapes/minimap-node';
+import { ShapeNode, ShapeType } from './components/Shapes/shape/types';
 import '@xyflow/react/dist/style.css';
 
 // Initial configuration for the React Flow canvas
 const proOptions: ProOptions = { account: 'paid-pro', hideAttribution: true };
 
+// Initial style for the nodes
 const nodeTypes: NodeTypes = {
   shape: ShapeNodeComponent,
 };
@@ -56,19 +58,6 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
   style: { strokeWidth: 2 },
 };
 
-
-// Default nodes and edges for the graph
-const initialNodes = [
-  { id: '1', position: { x: 0, y: 0 }, data: { label: '1' } },
-  { id: '2', position: { x: 0, y: 100 }, data: { label: '2' } },
-];
-const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
-
-// Sample labels for demonstration
-const nodeLabels: string[] = [
-  'Wire', 'your', 'ideas', 'with', 'React', 'Flow', '!',
-];
-
 /**
  * Home Component
  * Main canvas component that manages the graph state and user interactions
@@ -77,10 +66,7 @@ const nodeLabels: string[] = [
 function Home() {
 
   const { undo, redo, canUndo, canRedo, takeSnapshot } = useUndoRedo();
-
-  const [nodes, , onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const { screenToFlowPosition, addNodes } = useReactFlow();
+  const { screenToFlowPosition, addNodes, setNodes, setEdges} = useReactFlow();
 
   /**
    * Handles new edge connections between nodes
@@ -92,27 +78,6 @@ function Home() {
       setEdges((edges) => addEdge(connection, edges));
     },
     [setEdges, takeSnapshot]
-  );
-
-  /**
-   * Handles clicks on the canvas pane
-   * Creates new nodes at clicked position
-   */
-  const onPaneClick = useCallback(
-    (evt: React.MouseEvent<Element, MouseEvent>) => {
-      takeSnapshot();
-      const position = screenToFlowPosition({ x: evt.clientX, y: evt.clientY });
-      const label = nodeLabels.shift();
-      addNodes([
-        {
-          id: `${new Date().getTime()}`,
-          data: { label },
-          position
-        },
-      ]);
-      nodeLabels.push(`${label}`);
-    },
-    [takeSnapshot, addNodes, screenToFlowPosition]
   );
 
   // Event handlers for taking snapshots before modifications
@@ -169,17 +134,12 @@ function Home() {
     <div className="relative w-screen h-screen bg-stone-100">
       
       <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
         proOptions={proOptions}
         onConnect={onConnect}
         onNodeDragStart={onNodeDragStart}
         onSelectionDragStart={onSelectionDragStart}
         onNodesDelete={onNodesDelete}
         onEdgesDelete={onEdgesDelete}
-        onPaneClick={onPaneClick}
         selectNodesOnDrag={false}
         nodeTypes={nodeTypes}
         defaultNodes={defaultNodes}

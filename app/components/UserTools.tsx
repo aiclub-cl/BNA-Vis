@@ -6,8 +6,8 @@ import {
   } from "@/app/components/ui/popover"
 
 
-import SidebarItem from './FigureBar/figurebar-item';
-import { ShapeComponents, ShapeType } from './shape/types';
+import SidebarItem from './Shapes/FigureBar/figurebar-item';
+import { ShapeComponents, ShapeType } from './Shapes/shape/types';
 
 /*
 en el  PopoverConten , se ocupa el codigo de el ejemplo de la carpeta FigureBar, 

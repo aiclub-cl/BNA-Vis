@@ -1,5 +1,5 @@
 import { type Edge } from '@xyflow/react';
-import { type ShapeNode } from './components/shape/types';
+import { type ShapeNode } from './components/Shapes/shape/types';
 
 export const defaultNodes: ShapeNode[] = [
   {
