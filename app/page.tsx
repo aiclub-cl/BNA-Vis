@@ -1,32 +1,50 @@
 'use client';
+/**
+ * @fileoverview Main React Flow canvas implementation for BNA-Vis
+ * This component handles the graph visualization and user interactions
+ * including undo/redo functionality, node/edge management, and drag-drop operations
+ */
+
 import React, { useCallback } from 'react';
 import {
   ReactFlow,
-  MiniMap,
-  Controls,
   Background,
+  Panel,
+  ReactFlowProvider,
   useNodesState,
   useEdgesState,
   addEdge,
-  Panel,
+  Controls,
+  useReactFlow,
+  NodeOrigin,
+  Node,
+  Edge,
+  DefaultEdgeOptions,
+  ProOptions,
+  OnConnect,
+  SelectionDragHandler,
+  OnNodesDelete,
+  OnEdgesDelete,
+  OnNodeDrag,
   BackgroundVariant,
-  ReactFlowProvider,
   ConnectionLineType,
   MarkerType,
   ConnectionMode,
   NodeTypes,
-  DefaultEdgeOptions,
-  useReactFlow,
-
 } from '@xyflow/react';
 
-import '@xyflow/react/dist/style.css';
+import useUndoRedo from './components/utils/useUndoRedo';
 import Bar from './components/UserTools';
 import FileOptions from './components/FileOptions';
+
 import { defaultNodes, defaultEdges } from './initial-elements';
 import ShapeNodeComponent from './components/shape-node';
 import MiniMapNode from './components/minimap-node';
 import { ShapeNode, ShapeType } from './components/shape/types';
+import '@xyflow/react/dist/style.css';
+
+// Initial configuration for the React Flow canvas
+const proOptions: ProOptions = { account: 'paid-pro', hideAttribution: true };
 
 const nodeTypes: NodeTypes = {
   shape: ShapeNodeComponent,
@@ -38,23 +56,81 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
   style: { strokeWidth: 2 },
 };
 
-const proOptions = { account: 'paid-pro', hideAttribution: true };
 
-type ExampleProps = {
-  theme?: 'dark' | 'light';
-  snapToGrid?: boolean;
-  panOnScroll?: boolean;
-  zoomOnDoubleClick?: boolean;
-};
+// Default nodes and edges for the graph
+const initialNodes = [
+  { id: '1', position: { x: 0, y: 0 }, data: { label: '1' } },
+  { id: '2', position: { x: 0, y: 100 }, data: { label: '2' } },
+];
+const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
 
-function Home({
-    theme = 'light',
-    snapToGrid = true,
-    panOnScroll = true,
-    zoomOnDoubleClick = false,
-  }: ExampleProps) {
+// Sample labels for demonstration
+const nodeLabels: string[] = [
+  'Wire', 'your', 'ideas', 'with', 'React', 'Flow', '!',
+];
 
-  const { screenToFlowPosition, setNodes } = useReactFlow<ShapeNode>();
+/**
+ * Home Component
+ * Main canvas component that manages the graph state and user interactions
+ * Implements undo/redo functionality and handles node/edge modifications
+ */
+function Home() {
+
+  const { undo, redo, canUndo, canRedo, takeSnapshot } = useUndoRedo();
+
+  const [nodes, , onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const { screenToFlowPosition, addNodes } = useReactFlow();
+
+  /**
+   * Handles new edge connections between nodes
+   * Takes a snapshot for undo/redo functionality
+   */
+  const onConnect: OnConnect = useCallback(
+    (connection) => {
+      takeSnapshot();
+      setEdges((edges) => addEdge(connection, edges));
+    },
+    [setEdges, takeSnapshot]
+  );
+
+  /**
+   * Handles clicks on the canvas pane
+   * Creates new nodes at clicked position
+   */
+  const onPaneClick = useCallback(
+    (evt: React.MouseEvent<Element, MouseEvent>) => {
+      takeSnapshot();
+      const position = screenToFlowPosition({ x: evt.clientX, y: evt.clientY });
+      const label = nodeLabels.shift();
+      addNodes([
+        {
+          id: `${new Date().getTime()}`,
+          data: { label },
+          position
+        },
+      ]);
+      nodeLabels.push(`${label}`);
+    },
+    [takeSnapshot, addNodes, screenToFlowPosition]
+  );
+
+  // Event handlers for taking snapshots before modifications
+  const onNodeDragStart: OnNodeDrag = useCallback(() => {
+    takeSnapshot();
+  }, [takeSnapshot]);
+
+  const onSelectionDragStart: SelectionDragHandler = useCallback(() => {
+    takeSnapshot();
+  }, [takeSnapshot]);
+
+  const onNodesDelete: OnNodesDelete = useCallback(() => {
+    takeSnapshot();
+  }, [takeSnapshot]);
+
+  const onEdgesDelete: OnEdgesDelete = useCallback(() => {
+    takeSnapshot();
+  }, [takeSnapshot]);
 
   const onDragOver = (evt: DragEvent<HTMLDivElement>) => {
     evt.preventDefault();
@@ -93,8 +169,18 @@ function Home({
     <div className="relative w-screen h-screen bg-stone-100">
       
       <ReactFlow
-        colorMode={theme}
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
         proOptions={proOptions}
+        onConnect={onConnect}
+        onNodeDragStart={onNodeDragStart}
+        onSelectionDragStart={onSelectionDragStart}
+        onNodesDelete={onNodesDelete}
+        onEdgesDelete={onEdgesDelete}
+        onPaneClick={onPaneClick}
+        selectNodesOnDrag={false}
         nodeTypes={nodeTypes}
         defaultNodes={defaultNodes}
         defaultEdges={defaultEdges}
@@ -102,18 +188,17 @@ function Home({
         connectionLineType={ConnectionLineType.SmoothStep}
         fitView
         connectionMode={ConnectionMode.Loose}
-        panOnScroll={panOnScroll}
         onDrop={onDrop}
-        snapToGrid={snapToGrid}
         snapGrid={[10, 10]}
         onDragOver={onDragOver}
-        zoomOnDoubleClick={zoomOnDoubleClick}
-        className="flex-row"
       >
         <Panel position="top-left">
-        <FileOptions 
-        
-        /></Panel>
+          <FileOptions 
+            undo={undo} 
+            redo={redo} 
+            canUndo={canUndo} 
+            canRedo={canRedo} 
+          /></Panel>
         <Panel position="bottom-center"><Bar /></Panel>
 
         <Background color="#BFBFBF" className=""variant={BackgroundVariant.Dots} gap={16} size={1.2} />
