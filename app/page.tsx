@@ -101,6 +101,14 @@ function Home() {
     evt.preventDefault();
     evt.dataTransfer.dropEffect = 'move';
   };
+  
+  // colores inicials para los nodos 
+  const DEFAULT_COLORS = {
+    circle: '#8A2BE2',    // morado
+    decagram: '#FF0000',  // rojo
+    diamond: "#FF69B4",   // rosado
+    rectangle: "#696969"  // gris
+  };
 
   // this function is called when a node from the sidebar is dropped onto the react flow pane
   const onDrop: DragEventHandler = (evt: DragEvent<HTMLDivElement>) => {
@@ -118,16 +126,12 @@ function Home() {
       style: { width: 100, height: 100 },
       data: {
         type,
-        color: '#3F8AE2',
+        color: DEFAULT_COLORS[type as keyof typeof DEFAULT_COLORS] 
       },
       selected: true,
     };
 
-    setNodes((nodes) =>
-      (nodes.map((n) => ({ ...n, selected: false })) as ShapeNode[]).concat([
-        newNode,
-      ])
-    );
+    setNodes((nodes) => nodes.concat(newNode));
   };
 
   return (

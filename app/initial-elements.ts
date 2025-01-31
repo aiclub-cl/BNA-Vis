@@ -3,16 +3,6 @@ import { type ShapeNode } from './components/Shapes/shape/types';
 
 export const defaultNodes: ShapeNode[] = [
   {
-    id: '1',
-    type: 'shape',
-    position: { x: 0, y: 0 },
-    style: { width: 120, height: 60 },
-    data: {
-      type: 'round-rectangle',
-      color: '#3F8AE2',
-    },
-  },
-  {
     id: '2',
     type: 'shape',
     position: { x: 10, y: 120 },

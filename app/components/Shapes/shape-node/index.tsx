@@ -22,15 +22,34 @@ function useNodeDimensions(id: string) {
   };
 }
 
+
 function ShapeNode({ id, selected, data }: NodeProps<ShapeNode>) {
   const { color, type } = data;
   const { setNodes } = useReactFlow();
-
+  
+  /*
+  Aquí en allowedTypesForToolba se definen las figuras que 
+  tendrán cambio de color
+  */
+  const allowedTypesForToolbar = ["circle",  "decagram"];
   const { width, height } = useNodeDimensions(id);
   const shiftKeyPressed = useKeyPress('Shift');
   const handleStyle = { backgroundColor: color };
 
+  /*
+  Aquí se definen los colores estaticos para el diamante y el cuadrado
+  */
+  const staticColors = {
+    diamond: "#FF69B4",  //rosado
+    rectangle: "#696969",  //gris 
+  };
+
+  const finalColor = staticColors[type as keyof typeof staticColors] || data.color;
+
+
   const onColorChange = (color: string) => {
+    if (!allowedTypesForToolbar.includes(type)) return;
+    
     setNodes((nodes) =>
       nodes.map((node) => {
         if (node.id === id) {
@@ -47,12 +66,30 @@ function ShapeNode({ id, selected, data }: NodeProps<ShapeNode>) {
       })
     );
   };
+  
+    /*
+    */
 
   return (
+
     <>
-      <ShapeNodeToolbar onColorChange={onColorChange} activeColor={color} />
+        {type === 'circle' && (
+          <ShapeNodeToolbar 
+            onColorChange={onColorChange} 
+            activeColor={finalColor} 
+            type={'circle'} 
+          />
+        )}
+        {type === 'decagram' && (
+          <ShapeNodeToolbar 
+            onColorChange={onColorChange} 
+            activeColor={finalColor} 
+            type={'star'} 
+          />
+        )}
+
       <NodeResizer
-        color={color}
+        color={finalColor}
         keepAspectRatio={shiftKeyPressed}
         isVisible={selected}
       />
@@ -60,9 +97,9 @@ function ShapeNode({ id, selected, data }: NodeProps<ShapeNode>) {
         type={type}
         width={width}
         height={height}
-        fill={color}
+        fill={finalColor}
         strokeWidth={2}
-        stroke={color}
+        stroke={finalColor}
         fillOpacity={0.8}
       />
       <Handle

@@ -1,23 +1,31 @@
 import { NodeToolbar } from '@xyflow/react';
 
-const colors = [
-  '#CF4C2C',
-  '#EA9C41',
-  '#EBC347',
+const colors_circle = [
+  '#8A2BE2',
   '#438D57',
   '#3F8AE2',
-  '#803DEC',
+
 ];
+
+const colors_star = [
+  '#FF0000',  
+  '#FFD700',   
+]
 
 type ShapeNodeToolbarProps = {
   activeColor: string;
   onColorChange?: (color: string) => void;
+  type: string;
 };
 
 function ShapeNodeToolbar({
   onColorChange = () => false,
   activeColor,
+  type,
 }: ShapeNodeToolbarProps) {
+  
+  const colors = type === 'circle' ? colors_circle : colors_star;
+
   return (
     <NodeToolbar className="nodrag" offset={32}>
       {colors.map((color) => (
