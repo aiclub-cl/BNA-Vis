@@ -16,6 +16,11 @@ ese panel.
  */
 
 export default function Bar() {
+    
+    const onDragStart = (event: React.DragEvent, nodeType: string) => {
+        event.dataTransfer.setData('application/reactflow', nodeType);
+        event.dataTransfer.effectAllowed = 'move';
+    };
 
     return (
         <div id ="bottomCenterPanel" className="bg-white border-black border rounded-lg flex w-80">
@@ -49,6 +54,13 @@ export default function Bar() {
 
                     </PopoverContent>
                 </Popover>
+                <div
+                    onDragStart={(event) => onDragStart(event, "group")}
+                    draggable
+                    className="flex justify-center items-center h-full px-4 cursor-grab hover:bg-gray-200"
+                >
+                    <Image src="/svgs/group.svg" alt="Group Icon" width={24} height={24} />
+                </div>
             </div>
         </div>
 

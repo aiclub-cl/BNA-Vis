@@ -43,13 +43,14 @@ import ShapeNodeComponent from './components/Shapes/shape-node';
 import MiniMapNode from './components/Shapes/minimap-node';
 import { ShapeNode, ShapeType } from './components/Shapes/shape/types';
 import '@xyflow/react/dist/style.css';
-
+import GroupNode from './components/Shapes/group/groupnode';
 // Initial configuration for the React Flow canvas
 const proOptions: ProOptions = { account: 'paid-pro', hideAttribution: true };
 
 // Initial style for the nodes
 const nodeTypes: NodeTypes = {
   shape: ShapeNodeComponent,
+  group: GroupNode,
 };
 
 const defaultEdgeOptions: DefaultEdgeOptions = {
@@ -119,19 +120,29 @@ function Home() {
     // so that a node is added at the correct position even when viewport is translated and/or zoomed in
     const position = screenToFlowPosition({ x: evt.clientX, y: evt.clientY });
 
-    const newNode: ShapeNode = {
-      id: Date.now().toString(),
-      type: 'shape',
-      position,
-      style: { width: 100, height: 100 },
-      data: {
-        type,
-        color: DEFAULT_COLORS[type as keyof typeof DEFAULT_COLORS] 
-      },
-      selected: true,
-    };
+    if (type === 'group') {
+      const newNode = {
+        id: Date.now().toString(),
+        type: 'group', // Importante: debe coincidir con el registro en nodeTypes
+        position,
+        data: { label: 'Grupo' },
+      };
+      setNodes((nodes) => nodes.concat(newNode));
+    } else {
+      const newNode: ShapeNode = {
+        id: Date.now().toString(),
+        type: 'shape',
+        position,
+        style: { width: 100, height: 100 },
+        data: {
+          type: type as ShapeType,
+          color: DEFAULT_COLORS[type as keyof typeof DEFAULT_COLORS] 
+        },
+        selected: true,
+      };
+      setNodes((nodes) => nodes.concat(newNode));
+    }
 
-    setNodes((nodes) => nodes.concat(newNode));
   };
 
   return (
@@ -151,6 +162,7 @@ function Home() {
         defaultEdgeOptions={defaultEdgeOptions}
         connectionLineType={ConnectionLineType.SmoothStep}
         fitView
+       
         connectionMode={ConnectionMode.Loose}
         onDrop={onDrop}
         snapGrid={[10, 10]}

@@ -11,6 +11,7 @@ import Rectangle from './rectangle';
 import Diamond from './diamond';
 import Decagram from'./decagramo';
 
+
 //import RoundRectangle from './round-rectangle';
 //import Hexagon from './hexagon';
 //import ArrowRectangle from './arrow-rectangle';
@@ -26,7 +27,8 @@ export const ShapeComponents = {
   circle: Circle,
   rectangle: Rectangle,
   decagram: Decagram,
-  diamond: Diamond
+  diamond: Diamond,
+
 
 };
 

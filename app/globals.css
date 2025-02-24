@@ -108,7 +108,20 @@ body {
 
         --chart-4: 280 65% 60%;
 
-        --chart-5: 340 75% 55%
+        --chart-5: 340 75% 55%;
+      
+        --group-background: rgba(207, 182, 255, 0.4);
+
+        --group-border: #9E86ED;
+
+        --group-shadow: 
+
+          0px 3.54px 4.55px 0px #00000005, 
+          0px 3.54px 4.55px 0px #0000000D, 
+          0px 0.51px 1.01px 0px #0000001A;
+
+        --xy-theme-selected: #F57DBD;
+        --xy-theme-hover: #C5C5C5;
     }
 }
 
@@ -182,5 +195,43 @@ cosas que no funcionaban , pero la idea es cambiar esto obviamente :3
     color: var(--text);
     opacity: 0.5;
   }
+
+  
+  .react-flow__node-group {
+    background-color: var(--group-background) !important;
+    border: 1px solid var(--group-border) !important;
+    border-radius: 8px !important;
+    box-shadow: var(--group-shadow) !important;
+    min-width: 200px !important;
+    min-height: 100px !important;
+    padding: 20px !important;
+  }
+
+  .react-flow__node-group.selected {
+    border-color: var(--xy-theme-selected) !important;
+  }
+
+  .react-flow__node-group:hover {
+    border-color: var(--xy-theme-hover) !important;
+  }
+
+  .react-flow__node-group .react-flow__handle {
+    width: 5px !important;
+    height: 5px !important;
+    background-color: black !important;
+    border: 1px solid var(--group-border) !important;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .react-flow__node-group:hover .react-flow__handle,
+  .react-flow__node-group.selected .react-flow__handle {
+    opacity: 1;
+  } 
+
+
+  
+
+  
   
 }
