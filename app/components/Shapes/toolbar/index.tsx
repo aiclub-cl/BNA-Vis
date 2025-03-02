@@ -1,12 +1,13 @@
 import { NodeToolbar } from '@xyflow/react';
 
 const colors = [
-  '#CF4C2C',
-  '#EA9C41',
-  '#EBC347',
-  '#438D57',
-  '#3F8AE2',
-  '#803DEC',
+  '#9747FF',
+  '#14AE5C',
+  '#0D99FF',
+  '#757575',
+  '#F315FF',
+  '#FFA629',
+  '#F24822'
 ];
 
 type ShapeNodeToolbarProps = {

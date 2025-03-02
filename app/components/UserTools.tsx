@@ -38,10 +38,9 @@ export default function Bar() {
                         <Image src="/svgs/shapes.svg" alt="Shapes Icon" width={70} height={64} draggable={false} />
                     </PopoverTrigger>
                     
-                    <PopoverContent className="w-md border-black">
+                    <PopoverContent className="border-black">
                         
-                        <div className="popover-label mb-2"></div>
-                        <div className="popover-items flex flex-row flex-wrap gap-2">
+                        <div className="popover-items flex gap-3">
                             {Object.keys(ShapeComponents).map((type) => (
                                 <SidebarItem type={type as ShapeType} key={type} />
                             ))}
