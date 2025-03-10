@@ -8,12 +8,23 @@ import {
   NodeResizer,
 } from '@xyflow/react';
 
+import { GroupType, groupStyles } from './types';
 import { getRelativeNodesBounds } from './utils';
 
-const lineStyle = { borderColor: 'white' };
 
-function GroupNode({ id }: NodeProps) {
+//const lineStyle = { borderColor: 'white' };
+
+interface GroupNodeData {
+  type: GroupType;
+}
+
+interface ExtendedNodeProps extends NodeProps {
+  data: GroupNodeData;
+}
+
+function GroupNode({ id, data }: ExtendedNodeProps) {
   const { deleteElements } = useReactFlow();
+  const style = groupStyles[data.type || GroupType.PROBLEM_FORMULATION];
 
   const { minWidth, minHeight, hasChildNodes } = useStore((store) => {
     const childNodes = Array.from(store.nodeLookup.values()).filter(
@@ -32,12 +43,27 @@ function GroupNode({ id }: NodeProps) {
     deleteElements({ nodes: [{ id }] });
   };
 
-
-
   return (
-    <div>
+    <div style={{
+      backgroundColor: style.backgroundColor,
+      borderColor: style.borderColor,
+      borderWidth: 2,
+      borderStyle: 'solid',
+      borderRadius: '8px',
+      padding: '12px',
+      minWidth: '150px',
+      minHeight: '10px'
+    }}>
+      <div style={{
+        color: style.borderColor,
+        fontWeight: 'bold',
+        fontSize: '12px',
+        marginBottom: '2px'
+      }}>
+        {style.label}
+      </div>
       <NodeResizer
-        lineStyle={lineStyle}
+        lineStyle={{ borderColor: style.borderColor }}
         minHeight={minHeight}
         minWidth={minWidth}
       />

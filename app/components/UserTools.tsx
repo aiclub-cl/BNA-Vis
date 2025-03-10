@@ -8,7 +8,7 @@ import {
 
 import SidebarItem from './Shapes/FigureBar/figurebar-item';
 import { ShapeComponents, ShapeType } from './Shapes/shape/types';
-
+import { GroupType , groupStyles} from './Shapes/group/types';
 /*
 en el  PopoverConten , se ocupa el codigo de el ejemplo de la carpeta FigureBar, 
 -antes se llamaba sidebar-, copie el codigo para implementarlo en 
@@ -17,11 +17,14 @@ ese panel.
 
 export default function Bar() {
     
-    const onDragStart = (event: React.DragEvent, nodeType: string) => {
+    const onDragStart = (event: React.DragEvent, nodeType: string, groupType?: GroupType) => {
         event.dataTransfer.setData('application/reactflow', nodeType);
+        if (groupType) {
+            event.dataTransfer.setData('groupType', groupType);
+        }
         event.dataTransfer.effectAllowed = 'move';
     };
-
+    
     return (
         <div id ="bottomCenterPanel" className="bg-white border-black border rounded-lg flex w-80">
             {/* Left Side Buttons */}
@@ -54,13 +57,31 @@ export default function Bar() {
 
                     </PopoverContent>
                 </Popover>
-                <div
-                    onDragStart={(event) => onDragStart(event, "group")}
-                    draggable
-                    className="flex justify-center items-center h-full px-4 cursor-grab hover:bg-gray-200"
-                >
-                    <Image src="/svgs/group.svg" alt="Group Icon" width={24} height={24} />
-                </div>
+                <Popover>
+                    <PopoverTrigger className="flex justify-center items-center h-full px-4 cursor-grab hover:bg-gray-200">
+                        <Image src="/svgs/group.svg" alt="Group Icon" width={24} height={24} />
+                    </PopoverTrigger>
+                    <PopoverContent className="w-md border-black">
+                        <div className="flex flex-col gap-2">
+                            {Object.values(GroupType).map((type) => (
+                                <div
+                                    key={type}
+                                    draggable
+                                    onDragStart={(event) => onDragStart(event, 'group', type)}
+                                    className="flex items-center p-2 cursor-grab hover:bg-gray-100 rounded"
+                                    style={{
+                                        backgroundColor: groupStyles[type].backgroundColor,
+                                        borderColor: groupStyles[type].borderColor,
+                                        borderWidth: 1,
+                                        borderStyle: 'solid'
+                                    }}
+                                >
+                                    {groupStyles[type].label}
+                                </div>
+                            ))}
+                        </div>
+                    </PopoverContent>
+                </Popover>
             </div>
         </div>
 

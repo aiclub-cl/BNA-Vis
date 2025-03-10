@@ -44,6 +44,7 @@ import MiniMapNode from './components/Shapes/minimap-node';
 import { ShapeNode, ShapeType } from './components/Shapes/shape/types';
 import '@xyflow/react/dist/style.css';
 import GroupNode from './components/Shapes/group/groupnode';
+import { GroupType } from './components/Shapes/group/types';
 // Initial configuration for the React Flow canvas
 const proOptions: ProOptions = { account: 'paid-pro', hideAttribution: true };
 
@@ -114,6 +115,7 @@ function Home() {
   // this function is called when a node from the sidebar is dropped onto the react flow pane
   const onDrop: DragEventHandler = (evt: DragEvent<HTMLDivElement>) => {
     evt.preventDefault();
+    const groupType = evt.dataTransfer.getData('groupType') as GroupType;
     const type = evt.dataTransfer.getData('application/reactflow') as ShapeType;
 
     // this will convert the pixel position of the node to the react flow coordinate system
@@ -121,13 +123,19 @@ function Home() {
     const position = screenToFlowPosition({ x: evt.clientX, y: evt.clientY });
 
     if (type === 'group') {
+      const selectedGroupType = groupType ? groupType as GroupType : GroupType.PROBLEM_FORMULATION;
+      
       const newNode = {
         id: Date.now().toString(),
-        type: 'group', // Importante: debe coincidir con el registro en nodeTypes
+        type: 'group',
         position,
-        data: { label: 'Grupo' },
+        style: { width: 300, height: 300 },
+        data: { 
+          type: selectedGroupType
+        },
       };
       setNodes((nodes) => nodes.concat(newNode));
+    
     } else {
       const newNode: ShapeNode = {
         id: Date.now().toString(),
