@@ -29,15 +29,15 @@ export default function Legend() {
                 <div className="border-t border-gray-100 p-3">
                     <div className="space-y-2">
                         <div className="flex items-center gap-2">
-                            <div className="h-4 w-4 bg-blue-500"></div>
+                            <div className="h-5 w-5 bg-blue-500 border-2 border-black rounded-full"></div>
                             <span>Item 1</span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <div className="h-4 w-4 bg-green-500"></div>
+                            <div className="h-5 w-5 bg-green-500 border-2 border-black"></div>
                             <span>Item 2</span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <div className="h-4 w-4 bg-red-500"></div>
+                            <div className="h-5 w-5 bg-red-500 border-2 border-black rounded-full"></div>
                             <span>Item 3</span>
                         </div>
                     </div>
