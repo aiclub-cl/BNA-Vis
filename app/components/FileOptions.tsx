@@ -30,8 +30,8 @@ export default function FileOptions({ undo, redo, canUndo, canRedo }: FileOption
     
 
     return (
-        <div id="topLeftPanel" className="bg-white border-black border rounded-lg flex space-x-4">
-            <p className="py-2 px-2 font-medium">ACME Inc.</p>
+        <div id="topLeftPanel" className="bg-white border-black border rounded-lg flex gap-20">
+            <p className="py-2 px-2 font-medium truncate max-w-32">ACME Incorporated</p>
             <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center justify-center px-2 py-2 rounded-r-lg hover:bg-gray-200">
                     <Image src="/svgs/dots.svg" alt="File Options" width={16} height={16} draggable={false} />
