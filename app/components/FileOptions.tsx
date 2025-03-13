@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import useUndoRedo from './utils/useUndoRedo';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,7 +12,7 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger,
   } from "@/app/components/ui/dropdown-menu"
-import useExport from './export';
+import useExport from './utils/export';
 
 interface FileOptionsProps {
     undo: () => void;

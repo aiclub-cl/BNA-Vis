@@ -3,8 +3,7 @@ import {
     Popover,
     PopoverContent,
     PopoverTrigger,
-  } from "@/app/components/ui/popover"
-
+  } from "@/app/components/ui/popover";
 
 import SidebarItem from './Shapes/FigureBar/figurebar-item';
 import { ShapeComponents, ShapeType } from './Shapes/shape/types';
