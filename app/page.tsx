@@ -38,6 +38,7 @@ import ShapeNodeComponent from './components/Shapes/shape-node';
 import MiniMapNode from './components/Shapes/minimap-node';
 import { ShapeNode, ShapeType } from './components/Shapes/shape/types';
 import '@xyflow/react/dist/style.css';
+import Legend from './components/Legend';
 
 // Initial configuration for the React Flow canvas
 const proOptions: ProOptions = { account: 'paid-pro', hideAttribution: true };
@@ -147,13 +148,15 @@ function Home() {
         snapGrid={[10, 10]}
         onDragOver={onDragOver}
       >
-        <Panel position="top-left">
+        <Panel position="top-left" className="space-y-2">
           <FileOptions 
             undo={undo} 
             redo={redo} 
             canUndo={canUndo} 
             canRedo={canRedo} 
-          /></Panel>
+          />
+          <Legend />
+        </Panel>
         <Panel position="bottom-center"><Bar /></Panel>
 
         <Background color="#BFBFBF" className=""variant={BackgroundVariant.Dots} gap={16} size={1.2} />

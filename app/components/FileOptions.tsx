@@ -3,7 +3,6 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
     DropdownMenuSub,
     DropdownMenuSubTrigger,
     DropdownMenuPortal,
@@ -26,11 +25,10 @@ export default function FileOptions({ undo, redo, canUndo, canRedo }: FileOption
     
     const exportToPdf = useExport('pdf');
     const exportToPng = useExport('png');
-    
 
     return (
         <div id="topLeftPanel" className="bg-white border-black border rounded-lg flex gap-20">
-            <p className="py-2 px-2 font-medium truncate max-w-32">ACME Incorporated</p>
+            <p className="py-2 px-2 font-semibold truncate max-w-32">ACME Incorporated</p>
             <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center justify-center px-2 py-2 rounded-r-lg hover:bg-gray-200">
                     <Image src="/svgs/dots.svg" alt="File Options" width={16} height={16} draggable={false} />
