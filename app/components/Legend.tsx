@@ -2,7 +2,18 @@
 
 import { useState } from 'react';
 
-export default function Legend() {
+export type LegendItem = {
+  id: string;
+  color: string;
+  label: string;
+  shape: 'circle' | 'rectangle' | 'rounded' | string;
+};
+
+interface LegendProps {
+  items: LegendItem[];
+}
+
+export default function Legend({ items = [] }: LegendProps) {
     const [isExpanded, setIsExpanded] = useState(false);
     
     const toggleExpand = () => {
@@ -16,9 +27,8 @@ export default function Legend() {
                 onClick={toggleExpand}
             >
                 <p className="font-medium">Legend</p>
-                {/* Icon to be changed !!! */}
                 <button className={`h-5 w-5 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}>
-                    ↓
+                    ▼
                 </button>
             </div>
             
@@ -28,18 +38,23 @@ export default function Legend() {
             >
                 <div className="border-t border-gray-100 p-3">
                     <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                            <div className="h-5 w-5 bg-blue-500 border-2 border-black rounded-full"></div>
-                            <span>Item 1</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <div className="h-5 w-5 bg-green-500 border-2 border-black"></div>
-                            <span>Item 2</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <div className="h-5 w-5 bg-red-500 border-2 border-black rounded-full"></div>
-                            <span>Item 3</span>
-                        </div>
+                        {items.length > 0 ? (
+                            items.map((item) => (
+                                <div key={item.id} className="flex items-center gap-2">
+                                    <div 
+                                        className={`h-5 w-5 border-2 border-black`}
+                                        style={{ 
+                                            backgroundColor: item.color,
+                                            borderRadius: item.shape === 'circle' ? '50%' : 
+                                                         item.shape === 'rounded' ? '4px' : '0'
+                                        }}
+                                    ></div>
+                                    <span>{item.label}</span>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="text-sm text-gray-500">No items to display</div>
+                        )}
                     </div>
                 </div>
             </div>

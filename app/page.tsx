@@ -5,7 +5,7 @@
  * including undo/redo functionality, node/edge management, and drag-drop operations
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, DragEvent } from 'react';
 import {
   ReactFlow,
   Background,
@@ -39,6 +39,7 @@ import MiniMapNode from './components/Shapes/minimap-node';
 import { ShapeNode, ShapeType } from './components/Shapes/shape/types';
 import '@xyflow/react/dist/style.css';
 import Legend from './components/Legend';
+import { LegendProvider, useLegend } from './context/LegendContext';
 
 // Initial configuration for the React Flow canvas
 const proOptions: ProOptions = { account: 'paid-pro', hideAttribution: true };
@@ -55,14 +56,12 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
 };
 
 /**
- * Home Component
- * Main canvas component that manages the graph state and user interactions
- * Implements undo/redo functionality and handles node/edge modifications
+ * Main canvas component that renders within the LegendProvider context
  */
-function Home() {
-
+function CanvasContent() {
   const { undo, redo, canUndo, canRedo, takeSnapshot } = useUndoRedo();
   const { screenToFlowPosition, addNodes, setNodes, setEdges} = useReactFlow();
+  const { addLegendItem, legendItems } = useLegend();
 
   /**
    * Handles new edge connections between nodes
@@ -93,15 +92,16 @@ function Home() {
     takeSnapshot();
   }, [takeSnapshot]);
 
-  const onDragOver = (evt: DragEvent<HTMLDivElement>) => {
+  const onDragOver = (evt: React.DragEvent<HTMLDivElement>) => {
     evt.preventDefault();
     evt.dataTransfer.dropEffect = 'move';
   };
 
   // this function is called when a node from the sidebar is dropped onto the react flow pane
-  const onDrop: DragEventHandler = (evt: DragEvent<HTMLDivElement>) => {
+  const onDrop = (evt: React.DragEvent<HTMLDivElement>) => {
     evt.preventDefault();
     const type = evt.dataTransfer.getData('application/reactflow') as ShapeType;
+    const fill = evt.dataTransfer.getData('shape-fill') || '#3F8AE2';
 
     // this will convert the pixel position of the node to the react flow coordinate system
     // so that a node is added at the correct position even when viewport is translated and/or zoomed in
@@ -114,21 +114,24 @@ function Home() {
       style: { width: 100, height: 100 },
       data: {
         type,
-        color: '#3F8AE2',
+        color: fill,
       },
       selected: true,
     };
 
+    // Add the node to the canvas
     setNodes((nodes) =>
       (nodes.map((n) => ({ ...n, selected: false })) as ShapeNode[]).concat([
         newNode,
       ])
     );
+
+    // Add to legend when node is successfully dropped
+    addLegendItem(type, fill);
   };
 
   return (
     <div className="relative w-screen h-screen bg-stone-100">
-      
       <ReactFlow
         proOptions={proOptions}
         onConnect={onConnect}
@@ -155,16 +158,28 @@ function Home() {
             canUndo={canUndo} 
             canRedo={canRedo} 
           />
-          <Legend />
+          <Legend items={legendItems} />
         </Panel>
         <Panel position="bottom-center"><Bar /></Panel>
 
-        <Background color="#BFBFBF" className=""variant={BackgroundVariant.Dots} gap={16} size={1.2} />
+        <Background color="#BFBFBF" className="" variant={BackgroundVariant.Dots} gap={16} size={1.2} />
         
         <Controls/>
         <MiniMap zoomable draggable nodeComponent={MiniMapNode} />
       </ReactFlow>
     </div>
+  );
+}
+
+/**
+ * Home Component
+ * Wraps CanvasContent with the LegendProvider
+ */
+function Home() {
+  return (
+    <LegendProvider>
+      <CanvasContent />
+    </LegendProvider>
   );
 }
 
