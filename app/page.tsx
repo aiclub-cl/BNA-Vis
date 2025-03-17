@@ -38,8 +38,9 @@ import ShapeNodeComponent from './components/Shapes/shape-node';
 import MiniMapNode from './components/Shapes/minimap-node';
 import { ShapeNode, ShapeType } from './components/Shapes/shape/types';
 import '@xyflow/react/dist/style.css';
-import Legend from './components/Legend';
-import { LegendProvider, useLegend } from './context/LegendContext';
+import DiagramLegend from './components/DiagramLegend';
+import { LegendProvider, useLegend } from './context/DiagramLegendContext';
+import BNALegend from './components/BNALegend';
 
 // Initial configuration for the React Flow canvas
 const proOptions: ProOptions = { account: 'paid-pro', hideAttribution: true };
@@ -158,7 +159,10 @@ function CanvasContent() {
             canUndo={canUndo} 
             canRedo={canRedo} 
           />
-          <Legend items={legendItems} />
+          <DiagramLegend items={legendItems} />
+        </Panel>
+        <Panel position="top-right" className="space-y-2">
+          <BNALegend />
         </Panel>
         <Panel position="bottom-center"><Bar /></Panel>
 

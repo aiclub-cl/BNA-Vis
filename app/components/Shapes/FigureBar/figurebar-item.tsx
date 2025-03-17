@@ -2,7 +2,7 @@ import { type DragEvent, useRef } from 'react';
 
 import Shape from '../shape';
 import { type ShapeType } from '../shape/types';
-import { useLegend } from '@/app/context/LegendContext';
+import { useLegend } from '@/app/context/DiagramLegendContext';
 type SidebarItemProps = {
   type: ShapeType;
   fill?: string;

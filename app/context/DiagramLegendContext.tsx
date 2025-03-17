@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from 'react';
-import { LegendItem } from '../components/Legend';
+import { LegendItem } from '../components/DiagramLegend';
 import { ShapeType } from '../components/Shapes/shape/types';
 
 interface LegendContextType {
